@@ -1,10 +1,17 @@
 from Hangman_Images import stages
 
+class Spejamas_zodis:
+    def nezinomos_raid(self, zodis):
+        ieskomas = ""
+        for raid in zodis:
+            ieskomas += "_"
 
 zodziai = "gedas"
 gyvybes = 0
+
 reikiamos_raides = []
 buvusios_raides = []
+
 for raide in zodziai:
     reikiamos_raides.append(raide)
 
@@ -13,6 +20,7 @@ while True:
         print(stages[-1])
         print(f"###PRALAIMĖJAI###\nŽodis buvo: {zodziai}")
         break
+
     else:
         ivesta_raide = input("Įvesk raidę: ").lower()
         if ivesta_raide in reikiamos_raides and ivesta_raide not in buvusios_raides:
