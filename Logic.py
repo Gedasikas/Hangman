@@ -1,4 +1,5 @@
 from Hangman_Images import stages
+import re, random
 
 
 class Spejamas_zodis:
@@ -29,46 +30,62 @@ class Spejamas_zodis:
         for i in l:
             self.ieskomas = self.ieskomas[:i] + spejimas + self.ieskomas[i + 1:]
         return self.ieskomas
-
-
-zodis = Spejamas_zodis("gedas")
+#-----------------
+with open("Zodziai.txt", "r", encoding="UTF-8") as failas:
+    tekstas = failas.read()
+formatas = re.compile("\w{4,}")
+zodziai = formatas.findall(tekstas)
+ieskomas_zodis = (random.choice(zodziai)).lower()
+zodis = Spejamas_zodis(ieskomas_zodis)
 gyvybes = 0
-
-# while True:
-#     userput = input("Spėti raidę: 1\nSpėti žodį: 2\nTavo Įvedimas:")
-#     match userput:
-#         case "1":
+print(ieskomas_zodis)
+print(f"Žodis: {zodis.ieskomas}")
+#------------------
 while True:
-    if gyvybes == 7:
-        print(stages[-1])
-        print(f"###PRALAIMĖJAI###\nŽodis buvo: {zodis.zodis}")
-        break
-    elif zodis.ieskomas == zodis.zodis:
-        print(f"LAIMĖJAI!!!\nŽodis buvo: {zodis.zodis}")
-        break
-    else:
-        ivesta_raide = input("Įvesk raidę: ").lower()
-        print()
-        if ivesta_raide in zodis.reikiamos_raides and ivesta_raide not in zodis.buvusios_raides:
-            print("Teisingai!")
-            zodis.buvusios_raides.append(ivesta_raide)
-            print(f"Žodis: {zodis.nezinomos_raid(ivesta_raide)}")
-            print(f"Spėtos raidės: {zodis.buvusios_raides}")
+    userput = input("Spėti raidę: q\nSpėti žodį: w\nTavo Įvedimas:")
+    print()
+    match userput:
+        case "q":
+            while True:
+                if gyvybes == 7:
+                    print(stages[-1])
+                    print(f"###PRALAIMĖJAI###\nŽodis buvo: {zodis.zodis}")
+                    break
+                elif zodis.ieskomas == zodis.zodis:
+                    print(f"LAIMĖJAI!!!\nŽodis buvo: {zodis.zodis}")
+                    break
+                else:
+                    ivesta_raide = input("Įvesk raidę: ").lower()
+                    print()
+                    if ivesta_raide in zodis.reikiamos_raides and ivesta_raide not in zodis.buvusios_raides:
+                        print("Teisingai!")
+                        zodis.buvusios_raides.append(ivesta_raide)
+                        print(f"Žodis: {zodis.nezinomos_raid(ivesta_raide)}")
+                        print(f"Spėtos raidės: {zodis.buvusios_raides}")
+                        print()
+                        break
+                    elif ivesta_raide not in zodis.reikiamos_raides:
+                        gyvybes += 1
+                        print(f"Neteisingai")
+                        print(f"{stages[gyvybes]}")
+                        print(f"Žodis: {zodis.nezinomos_raid(ivesta_raide)}")
+                        zodis.buvusios_raides.append(ivesta_raide)
+                        print(f"Spėtos raidės: {zodis.buvusios_raides}")
+                        print()
+                        break
+                    elif ivesta_raide in zodis.buvusios_raides:
+                        print("Šitą raidę jau spėjai, rinkis kitą!")
+                        print(f"Žodis: {zodis.nezinomos_raid(ivesta_raide)}")
+                        print(f"Spėtos raidės: {zodis.buvusios_raides}")
+                        print()
+                        break
+        case "w":
+            irasytas = input("Tavo spėjamas žodis: ").lower()
             print()
-        elif ivesta_raide not in zodis.reikiamos_raides:
-            gyvybes += 1
-            print(f"Neteisingai")
-            print(f"{stages[gyvybes]}")
-            print(f"Žodis: {zodis.nezinomos_raid(ivesta_raide)}")
-            zodis.buvusios_raides.append(ivesta_raide)
-            print(f"Spėtos raidės: {zodis.buvusios_raides}")
-            print()
-        elif ivesta_raide in zodis.buvusios_raides:
-            print("Šitą raidę jau spėjai, rinkis kitą!")
-            print(f"Žodis: {zodis.nezinomos_raid(ivesta_raide)}")
-            print(f"Spėtos raidės: {zodis.buvusios_raides}")
-            print()
-# case "2":
-#     pass
-# case "3":
-#     break
+            if irasytas == zodis.zodis:
+                print(f"TEISINGAI!\nŽodis buvo: {zodis.zodis}")
+                break
+            else:
+                print(stages[-1])
+                print(f"###PRALAIMĖJAI###\nŽodis buvo: {zodis.zodis}")
+                break
