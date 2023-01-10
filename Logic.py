@@ -13,6 +13,7 @@ class Spejamas_zodis:
         for raide in self.zodis:
             l.append(raide)
         return l
+
     def bruksniuotas(self):
         tuscias = ""
         for raid in self.zodis:
@@ -26,17 +27,12 @@ class Spejamas_zodis:
             if zodis.reikiamos_raides[itr] == spejimas:
                 l.append(itr)
         for i in l:
-            self.ieskomas = self.ieskomas[:i] + spejimas + self.ieskomas[i+1:]
+            self.ieskomas = self.ieskomas[:i] + spejimas + self.ieskomas[i + 1:]
         return self.ieskomas
 
 
-
-
-
-zodis = Spejamas_zodis("babilonas")
+zodis = Spejamas_zodis("gedas")
 gyvybes = 0
-
-
 
 # while True:
 #     userput = input("Spėti raidę: 1\nSpėti žodį: 2\nTavo Įvedimas:")
